@@ -4,6 +4,7 @@ class OrderCreate(BaseModel):
     order_id  : int = Field(..., ge = 0)
     item_id   : int = Field(..., ge = 0)
     quantity  : int = Field(..., gt = 0)
+    address   : str = Field(..., min_length = 1)
 
 
 class OrderResponse(BaseModel):
