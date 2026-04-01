@@ -10,4 +10,4 @@ class User_Class(Base):
     user_phone = Column(Integer, nullable=False)
     user_email = Column(Integer, nullable=False)
 
-    Orders = relationship("Order", back_populates="Orders_Table")
+    orders = relationship("Order", back_populates="user")

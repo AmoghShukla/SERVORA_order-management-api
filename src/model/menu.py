@@ -1,5 +1,5 @@
 from sqlalchemy.orm import relationship
-from sqlalchemy import Integer, String, Column
+from sqlalchemy import Integer, String, Column, ForeignKey
 from src.database.base import Base
 
 class Menu_Class(Base):
@@ -7,5 +7,9 @@ class Menu_Class(Base):
 
     cuisine_id = Column(Integer, nullable=False, primary_key=True)
     cuisine_name = Column(String, nullable=False)
+
+    restaurent = relationship("Restaurent_Class", back_populates="menu")
+    
+    restaurent_id = Column(Integer, ForeignKey("Restaurent_Table.Restaurent_id"))
 
     

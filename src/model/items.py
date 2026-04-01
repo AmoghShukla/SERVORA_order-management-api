@@ -10,3 +10,5 @@ class Items_Class(Base):
     item_price = Column(Integer, nullable=False)
     item_rating = Column(Integer, nullable=False)
     item_availability = Column(Boolean, nullable=False)
+
+    orders = relationship('Orders_Class', back_populates="items")

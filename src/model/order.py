@@ -10,7 +10,7 @@ class Order_Class(Base):
     payment_status = Column(String)
     total_amount = Column(Integer, nullable=False, index=True)
 
-    user_id = Column(Integer, ForeignKey('User_Table.user_id'))
-
-    user = relationship('User_Class', back_populates="Orders")
+    user = relationship('User_Class', back_populates="orders")
+    items = relationship('Items_Class', back_populates="orders")
     
+    user_id = Column(Integer, ForeignKey('User_Table.user_id'))
