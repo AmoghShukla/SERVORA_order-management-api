@@ -5,11 +5,14 @@ from sqlalchemy import pool
 
 from src.database.base import Base
 
-from src.model.order import Order  # Import your models here
+from src.model.order import Order_Class
+from src.model.user import User_Class
+from src.model.menu import Menu_Class
+from src.model.restaurent import Restaurent_Class
+from src.model.items import Items_Class
+from src.model.user import User_Class
 
 from src.config.config import settings
-
-
 
 from alembic import context
 

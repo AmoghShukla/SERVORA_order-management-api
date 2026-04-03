@@ -11,4 +11,4 @@ class Restaurent_Class(Base):
     Restaurent_phone = Column(Integer, nullable=False)
     Restaurent_rating = Column(Integer, nullable=False, index=True)
 
-    menu = relationship("Menu", back_populates="restaurent")
+    menu = relationship("Menu_Class", back_populates="restaurent")

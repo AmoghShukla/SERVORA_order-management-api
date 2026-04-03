@@ -1,14 +1,18 @@
 from fastapi import FastAPI, APIRouter
-from src.routers.order_routers import router
+from src.routers.order_routers import router as orderrouter
 from src.database.base import Base
 from src.database.session import engine
+from src.routers.login_routers import router as loginrouter
+from src.routers.user_routers import router as userrouter
 
 
-app = FastAPI()
-app.include_router(router, prefix="/Orders/api/v1", tags=['Orders'])
+app = FastAPI(title="Zwigato")
+app.include_router(orderrouter, prefix="/api/v1", tags=['Orders'])
+app.include_router(loginrouter, prefix="/api/v1", tags=['Login'])
+app.include_router(userrouter, prefix="/api/v1", tags=['User'])
 
 # Base.metadata.create_all(bind=engine)
 
-app.get('/')
-def HealthCheck():
+@app.get('/')
+def home():
     return {"message": "Welcome to the Order Management API!"}

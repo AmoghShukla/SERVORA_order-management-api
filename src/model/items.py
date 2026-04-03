@@ -2,6 +2,7 @@ from sqlalchemy import Integer, String, Boolean, Column
 from sqlalchemy.orm import relationship
 from src.database.base import Base
 
+
 class Items_Class(Base):
     __tablename__="Items_Table"
 
@@ -11,5 +12,5 @@ class Items_Class(Base):
     item_rating = Column(Integer, nullable=False)
     item_availability = Column(Boolean, nullable=False)
 
-    orders = relationship('Orders_Class', back_populates="items")
-    cart = relationship('Cart_Class', secondary='Cart_Table',back_populates="items")
+    orders = relationship('Order_Class', secondary='Cart_Table', back_populates="items")
+    cart_entries = relationship('Cart_Class', back_populates="item")

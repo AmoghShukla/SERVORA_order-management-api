@@ -11,8 +11,8 @@ class Order_Class(Base):
     total_amount = Column(Integer, nullable=False, index=True)
 
     user = relationship('User_Class', back_populates="orders")
-    items = relationship('Items_Class', back_populates="orders")
-    cart = relationship('Cart_Class', secondary='Cart_Table',back_populates="orders")
+    items = relationship('Items_Class', secondary='Cart_Table', back_populates="orders")
+    cart_entries = relationship('Cart_Class', back_populates="order")
     
     user_id = Column(Integer, ForeignKey('User_Table.user_id'))
     
