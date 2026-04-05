@@ -2,6 +2,13 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Integer, Float, String, Column, DateTime
 from src.database.base import Base
 from datetime import datetime
+from sqlalchemy import Enum
+import enum
+
+class UserRole(enum.Enum):
+    USER = "USER"
+    ADMIN = "ADMIN"
+    RESTAURANT_OWNER = "RESTAURANT_OWNER"
 
 class User_Class(Base):
     __tablename__ = "User_Table"
