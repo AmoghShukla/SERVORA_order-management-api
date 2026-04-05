@@ -22,3 +22,12 @@ def verify_password(plain_password : str, hashed_password : str):
     '''
     return password_context.verify(plain_password, hashed_password)
 
+
+def create_access_token(data : dict):
+    data_to_encode = data.copy()
+    expire = datetime.now() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+
+    data_to_encode.update({"exp" : expire})
+
+    return jwt.encode(data_to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
