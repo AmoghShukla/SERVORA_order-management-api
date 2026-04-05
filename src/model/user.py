@@ -18,7 +18,7 @@ class User_Class(Base):
     user_email = Column(String, unique=True)
     user_password = Column(String)
     user_phone = Column(String)
-
+    user_role = Column(Enum(UserRole), default=UserRole.USER)
     created_at = Column(DateTime, default=datetime.now())
 
     orders = relationship("Order_Class", back_populates="user")
