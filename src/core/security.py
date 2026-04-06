@@ -59,7 +59,6 @@ def verify_refresh_token(token: str):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         
-        # Verify token type
         if payload.get("type") != "refresh":
             raise JWTError("Invalid token type")
         

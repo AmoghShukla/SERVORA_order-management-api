@@ -36,7 +36,6 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(bearer_
             refresh_token = request.headers.get("X-Refresh-Token")
             if refresh_token:
                 try:
-                    # Verify and decode the refresh token
                     refresh_payload = verify_refresh_token(refresh_token)
                     
                     user_id = refresh_payload.get("sub")
