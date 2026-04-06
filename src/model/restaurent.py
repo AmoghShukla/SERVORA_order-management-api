@@ -13,4 +13,4 @@ class Restaurent_Class(Base):
     Restaurent_rating = Column(Integer, nullable=False, index=True)
 
     owner = relationship("User_Class", back_populates="owned_restaurents")
-    menu = relationship("Menu_Class", back_populates="restaurent", cascade="all, delete-orphan")
+    menu = relationship("Menu_Class", back_populates="restaurent")
