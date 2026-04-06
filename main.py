@@ -8,10 +8,13 @@ from src.database.base import Base
 from src.database.session import engine
 from src.routers.auth import router as loginrouter
 from src.routers.user import router as userrouter
+from src.middleware.auth_middleware import TokenRefreshMiddleware
 import src.model
 
 
 app = FastAPI(title="Zwigato")
+
+app.add_middleware(TokenRefreshMiddleware)
 app.include_router(orderrouter, prefix="/api", tags=['Orders'])
 app.include_router(restaurentrouter, prefix="/api", tags=['Restaurent'])
 app.include_router(menurouter, prefix="/api", tags=['Menu'])
