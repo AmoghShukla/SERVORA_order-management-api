@@ -40,3 +40,6 @@ def login(payload, db : Session):
         "access_token": token,
         "token_type": "bearer"
     }
+
+def service_make_owner(user_id, db):
+    return repo_make_owner(user_id, db)
