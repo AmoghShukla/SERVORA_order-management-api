@@ -27,7 +27,6 @@ class OrderItemResponse(BaseModel):
 
 
 class OrderResponse(BaseModel):
-    order_id: int
     restaurent_id: int
     total_amount: float
     order_status: str

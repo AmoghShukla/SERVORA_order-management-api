@@ -62,9 +62,23 @@ def create_order(db: Session, user_id: int, payload):
         order.total_amount = total_amount
         db.commit()
         db.refresh(order)
+
+        response_items = []
+        for order_item in order_items:
+            response_items.append(
+                {
+                    "item_id": order_item.item_id,
+                    "quantity": order_item.item_quantity,
+                    "line_total": order_item.price,
+                }
+            )
+
         return {
-            "order": order,
-            "items": order_items,
+            "restaurent_id": order.restaurent_id,
+            "address": order.address,
+            "order_status": order.order_status,
+            "payment_status": order.payment_status,
+            "items": response_items,
             "total_amount": total_amount,
         }
     except (NotFoundError, RepositoryError):
@@ -98,18 +112,8 @@ def update_order_total(db : Session, order, total):
 def get_orders_by_user(db: Session, user_id : int):
     return db.query(Order_Class).filter(Order_Class.user_id == user_id).all()
 
-def get_order_history_by_user(db: Session, user_id: int):
-    orders = (
-        db.query(Order_Class)
-        .options(
-            joinedload(Order_Class.order_items).joinedload(OrderItems_Class.item),
-            joinedload(Order_Class.restaurent),
-        )
-        .filter(Order_Class.user_id == user_id)
-        .order_by(Order_Class.created_at.desc())
-        .all()
-    )
 
+def _serialize_order_history(orders):
     history = []
     for order in orders:
         items = []
@@ -133,7 +137,6 @@ def get_order_history_by_user(db: Session, user_id: int):
 
         history.append(
             {
-                "order_id": order.order_id,
                 "restaurent_id": order.restaurent_id,
                 "restaurent_name": restaurent_name,
                 "address": order.address,
@@ -146,3 +149,44 @@ def get_order_history_by_user(db: Session, user_id: int):
         )
 
     return history
+
+def get_order_history_by_user(db: Session, user_id: int):
+    orders = (
+        db.query(Order_Class)
+        .options(
+            joinedload(Order_Class.order_items).joinedload(OrderItems_Class.item),
+            joinedload(Order_Class.restaurent),
+        )
+        .filter(Order_Class.user_id == user_id)
+        .order_by(Order_Class.created_at.desc())
+        .all()
+    )
+    return _serialize_order_history(orders)
+
+
+def get_order_history_by_owner(db: Session, owner_user_id: int):
+    orders = (
+        db.query(Order_Class)
+        .join(Restaurent_Class, Order_Class.restaurent_id == Restaurent_Class.Restaurent_id)
+        .options(
+            joinedload(Order_Class.order_items).joinedload(OrderItems_Class.item),
+            joinedload(Order_Class.restaurent),
+        )
+        .filter(Restaurent_Class.owner_id == owner_user_id)
+        .order_by(Order_Class.created_at.desc())
+        .all()
+    )
+    return _serialize_order_history(orders)
+
+
+def get_order_history_all(db: Session):
+    orders = (
+        db.query(Order_Class)
+        .options(
+            joinedload(Order_Class.order_items).joinedload(OrderItems_Class.item),
+            joinedload(Order_Class.restaurent),
+        )
+        .order_by(Order_Class.created_at.desc())
+        .all()
+    )
+    return _serialize_order_history(orders)

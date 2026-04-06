@@ -4,7 +4,6 @@ from src.model.menu import Menu_Class
 
 logger = get_logger(__name__)
 
-# In-memory cart storage: {user_id: {restaurent_id: {item_id: quantity, ...}, ...}}
 _user_carts = {}
 
 

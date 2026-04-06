@@ -2,7 +2,7 @@ from src.middleware.loggers import get_logger
 from sqlalchemy.orm import Session
 from src.model.user import User_Class, UserRole
 from sqlalchemy.exc import SQLAlchemyError
-from src.exceptions.custom_exception import RepositoryError, ServiceError, NotFoundError 
+from src.exceptions.custom_exception import RepositoryError, NotFoundError
 from pydantic import EmailStr
 
 logger = get_logger(__name__)

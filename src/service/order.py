@@ -1,6 +1,11 @@
 from sqlalchemy.orm import Session
 from src.middleware.loggers import get_logger
-from src.repository.order import create_order, get_order_history_by_user, get_orders_by_user
+from src.repository.order import (
+    create_order,
+    get_order_history_all,
+    get_order_history_by_owner,
+    get_order_history_by_user,
+)
 from src.service.cart import get_cart_items_for_order, clear_cart
 
 logger = get_logger(__name__)
@@ -38,7 +43,13 @@ def service_create_order_from_cart(payload, db: Session, user):
 def service_get_all_orders(db : Session, user):
     try:
         user_id = int(user["user_id"])
-        return get_orders_by_user(db, user_id)
+        role = str(user.get("role", "")).upper()
+
+        if role == "ADMIN":
+            return get_order_history_all(db)
+        if role == "RESTAURANT_OWNER":
+            return get_order_history_by_owner(db, user_id)
+        return get_order_history_by_user(db, user_id)
     except Exception as e:
         logger.error(f"Error fetching order: {e}")
         raise Exception(f"Error fetching order: {e}")
@@ -47,6 +58,12 @@ def service_get_all_orders(db : Session, user):
 def service_get_order_history(db: Session, user):
     try:
         user_id = int(user["user_id"])
+        role = str(user.get("role", "")).upper()
+
+        if role == "ADMIN":
+            return get_order_history_all(db)
+        if role == "RESTAURANT_OWNER":
+            return get_order_history_by_owner(db, user_id)
         return get_order_history_by_user(db, user_id)
     except Exception as e:
         logger.error(f"Error fetching order history: {e}")

@@ -19,8 +19,6 @@ def _ensure_restaurent_access(db: Session, restaurent_id: int, user):
     if not restaurent:
         raise ValueError("Restaurent not found")
 
-    if int(user["user_id"]) != restaurent.owner_id:
-        raise PermissionError("You can manage only your own restaurent")
 
 
 def service_create_item(menu_id: int, payload, db: Session, user):

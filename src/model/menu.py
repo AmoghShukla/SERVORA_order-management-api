@@ -10,6 +10,6 @@ class Menu_Class(Base):
     restaurent_id = Column(Integer, ForeignKey("Restaurent_Table.Restaurent_id"), nullable=False, index=True)
 
     restaurent = relationship("Restaurent_Class", back_populates="menu")
-    items = relationship("Items_Class", back_populates="menu", cascade="all, delete-orphan")
+    items = relationship("Items_Class", back_populates="menu")
 
     
