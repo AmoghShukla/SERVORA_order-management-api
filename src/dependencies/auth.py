@@ -1,20 +1,19 @@
 from fastapi import HTTPException, Depends, Request
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
 from sqlalchemy.orm import Session
+from fastapi.security import OAuth2PasswordBearer, OAuth2AuthorizationCodeBearer
 
 from src.core.security import SECRET_KEY, ALGORITHM, create_access_token, verify_refresh_token
 
-bearer_scheme = HTTPBearer(auto_error=True)
+oauth2scheme = OAuth2PasswordBearer()
 
-def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme), request: Request = None):
+def get_current_user(token: OAuth2AuthorizationCodeBearer = Depends(oauth2scheme), request: Request = None):
     '''
     Authenticate user from access token in Authorization header.
     If access token is expired, attempts to use refresh token from Refresh Token header
     to automatically get a new access token without failing the request.
     '''
     try:
-        token = credentials.credentials
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
 
         if payload is None:
